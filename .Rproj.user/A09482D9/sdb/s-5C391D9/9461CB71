@@ -1,0 +1,16 @@
+{
+    "contents" : "## Matrix inversion is usually a costly computation\n## and there may be some benefit to caching the inverse of a matrix\n## rather than compute it repeatedly\n## The following two functions are used to cache the inverse of a matrix.\n\n# makeCacheMatrix creates a list containing a function to\n# 1. set the value of the matrix\n# 2. get the value of the matrix\n# 3. set the value of inverse of the matrix\n# 4. get the value of inverse of the matrix\nmakeCacheMatrix <- function(x = matrix()) {\n        inv <- NULL\n        set <- function(y) {\n                x <<- y\n                inv <<- NULL\n        }\n        get <- function() x\n        setinv <- function(inverse) inv <<- inverse\n        getinv <- function() inv\n        list(set=set, get=get, setinv=setinv, getinv=getinv)\n}\n\n\n# The following function returns the inverse of the matrix. It first checks if\n# the inverse has already been computed. If so, it gets the result and skips the\n# computation. If not, it computes the inverse, sets the value in the cache via\n# setinverse function.\n\n# This function assumes that the matrix is always invertible.\ncacheSolve <- function(x, ...) {\n        ## Return a matrix that is the inverse of 'x'\n        inv <- x$getinv()\n        if(!is.null(inv)) {\n                message(\"getting cached solved matrix\")\n                return(inv)\n        }\n        data <- x$get()\n        inv <- solve(data)\n        x$setinv(inv)\n        inv\n}\n\n## Sample run:\n## > x <- matrix(c(4,2,7,6),2,2)\n## > m <- makeCacheMatrix(x)\n## > m$get()\n##      [,1] [,2]\n## [1,]    4    7\n## [2,]    2    6\n\n## No cache in the first run\n## > cacheSolve(m)\n##      [,1] [,2]\n## [1,]  0.6 -0.7\n## [2,] -0.2  0.4\n\n## Retrieving from the cache in the second run\n## > cacheSolve(m)\n## getting cached solved matrix\n##      [,1] [,2]\n## [1,]  0.6 -0.7\n## [2,] -0.2  0.4\n## > ",
+    "created" : 1424212056445.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2630966514",
+    "id" : "9461CB71",
+    "lastKnownWriteTime" : 1424378955,
+    "path" : "C:/Users/Pierre Vettori/ProgrammingAssignment2/cachematrix.R",
+    "project_path" : "cachematrix.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
